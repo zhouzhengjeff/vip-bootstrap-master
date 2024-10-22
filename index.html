@@ -4,19 +4,85 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-datepicker.css" rel="stylesheet">
     <script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap-datepicker.js" type="text/javascript"></script>
 </head>
 <body>
+
+
+<!-- Add Modal -->
+<div aria-labelledby="myModalLabel" class="modal fade" id="addModel" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">用户添加</h4>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal" id="addUserForm">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="name">用户名称</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="name" name="name"
+                                   placeholder="用户名称" type="text">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"
+                               for="password">用户密码</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="password" name="password"
+                                   placeholder="用户密码"
+                                   type="password">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"
+                               for="password">用户薪资</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="salary" name="salary"
+                                   placeholder="用户薪资"
+                                   type="text">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"
+                               for="password">用户生日</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="birthday" name="birthday"
+                                   placeholder="用户生日"
+                                   type="text">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" type="button">关闭
+                </button>
+                <button class="btn btn-primary" id="addUserBtn" type="button">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="container">
+    
     <!--标题部分-->
     <div class="col-md-12">
         <h1>SSM-CRUD</h1>
     </div>
 
     <!--按钮部分 菜单部分-->
-    <div class="col-md-offset-8">
-        <button class="btn btn-success">添加</button>
+    <div class="col-md-offset-6">
+        <button class="btn btn-success" data-target="#addModel" data-toggle="modal">添加</button>
         <button class="btn btn-info">搜索</button>
     </div>
 
@@ -46,5 +112,60 @@
 
     </div>
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            url: "data/users.json",
+            type: "GET",
+            dataType: "json",
+            success: function (resp) {
+                let users = resp;
+
+                $.each(users, function (index, user) {
+                    let idTd = $("<td></td>").append(user.id);
+                    let nameTd = $("<td></td>").append(user.name);
+                    let passwordTd = $("<td></td>").append(user.password);
+                    let salaryTd = $("<td></td>").append(user.salary);
+                    let birthdayTd = $("<td></td>").append(user.birthday);
+
+                    let actionTd = $("<td></td>");
+                    let editBtn = $("<button></button>").addClass("btn btn-primary").append("修改");
+                    let deleteBtn = $("<button></button>").addClass("btn btn-danger").append("删除");
+                    actionTd.append(editBtn).append(deleteBtn);
+
+                    $("<tr></tr>").append(idTd).append(nameTd).append(passwordTd).append(salaryTd).append(birthdayTd).append(actionTd).appendTo("tbody");
+                });
+
+            },
+        })
+
+
+        $("#birthday").datepicker({
+            language: 'zh-CN', //语言
+            autoclose: true, //选择后自动关闭
+            clearBtn: true,//清除按钮
+            format: "yyyy-mm-dd"//日期格式
+        })
+
+        $("#addUserBtn").click(function () {
+
+            // name=xxx&password=admin&salary-12.34&birthday=1234-12-12
+            let userQueryString = $("#addUserForm").serialize();
+
+            $.ajax({
+                url: "data/users.json",
+                type: "POST",
+                dataType: "json",
+                data: userQueryString,
+                success: function (resp) {
+                    console.log(resp);
+                }
+            })
+        });
+    });
+</script>
+
+
 </body>
 </html>

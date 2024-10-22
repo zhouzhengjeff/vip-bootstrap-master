@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "name": "zhangsan",
+        "password": "admin",
+        "salary": 1000,
+        "birthday": "1990-01-01"
+    },
+    {
+        "id": 2,
+        "name": "lisi",
+        "password": "test",
+        "salary": 2000,
+        "birthday": "1990-01-01"
+    },
+    {
+        "id": 3,
+        "name": "wangwu",
+        "password": "admin",
+        "salary": 3000,
+        "birthday": "1990-01-01"
+    },
+    {
+        "id": 4,
+        "name": "aaa",
+        "password": "admin",
+        "salary": 7000,
+        "birthday": "1990-01-01"
+    },
+    {
+        "id": 5,
+        "name": "John",
+        "password": "admin",
+        "salary": 1000,
+        "birthday": "1990-01-01"
+    }
+]
